@@ -6,10 +6,10 @@ import { useEffect, useState } from 'react';
 function Listings() {
     const [houseListings, setHouseListings] = useState([]);
 
+    // function to fetch all the active house listings
     async function fetchListings() {
-        const url = "http://127.0.0.1:8080/listings";
         try {
-            const response = await fetch(url);
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/listings`);
             if (!response.ok) {
                 throw new Error(`Response status: ${response.status}`);
             }
@@ -21,6 +21,7 @@ function Listings() {
         }
     }
 
+    // fetch the listings when the page is first rendered
     useEffect(() => {
         fetchListings();
     }, []);
@@ -28,7 +29,6 @@ function Listings() {
     return (<>
         <NavigationBar />
         <h1 className="heading">Current Listings</h1>
-
         {houseListings.length > 0 ? <Table striped bordered hover>
             <thead>
                 <tr>

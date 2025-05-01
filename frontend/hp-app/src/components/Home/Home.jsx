@@ -66,14 +66,30 @@ function Home() {
     //     }
     // }
 
-    function createListing() {
-        console.log(listingTitle);
-        console.log(description);
-        console.log(rent);
-        console.log(address);
-        console.log(noOfRooms);
-        // console.log(contactMethod);
-        console.log(contactInfo);
+    async function createListing() {
+        const newListing = [];
+        newListing.push(listingTitle);
+        newListing.push(description);
+        newListing.push(rent);
+        newListing.push(address);
+        newListing.push(parseInt(noOfRooms));
+        newListing.push(contactInfo);
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/newlisting`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({newListing: newListing})
+            });
+
+            if(!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     return (<div>
