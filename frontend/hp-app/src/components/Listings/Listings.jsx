@@ -1,10 +1,21 @@
-import Table from 'react-bootstrap/Table'
-
 import NavigationBar from '../NavigationBar/NavigationBar';
 import { useEffect, useState } from 'react';
+import { DataGrid } from '@mui/x-data-grid';
+import Paper from '@mui/material/Paper';
+import { Box } from '@mui/material';
 
 function Listings() {
     const [houseListings, setHouseListings] = useState([]);
+
+    const headerColumns = [
+        { field: 'title', headerName: 'Listing Title', width: 100 },
+        { field: 'description', headerName: 'Description', width: 300 },
+        { field: 'rent', headerName: 'Rent', width: 300 },
+        { field: 'no_rooms', headerName: 'Number of Rooms', width: 150 },
+        { field: 'contact_info', headerName: 'Contact Information', width: 400 },
+    ];
+
+    const paginationModel = { page: 0, pageSize: 5 };
 
     // function to fetch all the active house listings
     async function fetchListings() {
@@ -21,41 +32,34 @@ function Listings() {
         }
     }
 
+    // function to assign unique id for each house listing
+    function getRowId(row) {
+        return (row.title + row.address);
+    }
+
     // fetch the listings when the page is first rendered
     useEffect(() => {
+        // manually set body background color to orange
+        document.body.style.backgroundColor = "#FA812F";
         fetchListings();
     }, []);
 
-    return (<>
+    return (<div style={{ backgroundColor: '#FA812F' }}>
         <NavigationBar />
         <h1 className="heading">Current Listings</h1>
-        {houseListings.length > 0 ? <Table striped bordered hover>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Listing Title</th>
-                    <th>Description</th>
-                    <th>Rent</th>
-                    <th>Address</th>
-                    <th>Number of Rooms</th>
-                    <th>Contact Information</th>
-                </tr>
-            </thead>
-            <tbody>
-                {houseListings.map((houseListing, index) => (
-                    <tr key={index}>
-                        <td>{index+1}</td>
-                        <td>{houseListing.title}</td>
-                        <td>{houseListing.description}</td>
-                        <td>{houseListing.rent}</td>
-                        <td>{houseListing.address}</td>
-                        <td>{houseListing.no_rooms}</td>
-                        <td>{houseListing.contact_info}</td>
-                    </tr>
-                ))}
-            </tbody>
-        </Table> : <h3 className="heading">No current listings to show!</h3> }
-    </>);
+        {houseListings.length > 0 ? <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Paper sx={{ height: 400, width: '90%' }}>
+                <DataGrid
+                    getRowId={getRowId}
+                    rows={houseListings}
+                    columns={headerColumns}
+                    initialState={{ pagination: { paginationModel } }}
+                    pageSizeOptions={[5, 10]}
+                    sx={{ border: 0 }}
+                />
+            </Paper>
+        </Box> : <h3 className="heading">No current listings to show!</h3>}
+    </div>);
 }
 
 export default Listings;
