@@ -2,6 +2,20 @@
 
 Both the backend and frontend directories have separate README files with the required steps to set up the files.
 
+## Database Schema
+
+CREATE TABLE house_listings( \
+    title VARCHAR(255), \
+    description TEXT, \
+    rent VARCHAR(255), \
+    address TEXT, \
+    no_rooms INTEGER, \
+    contact_info VARCHAR(255), \
+    PRIMARY KEY (title, address) \
+); 
+
+Assume that each listing should have a unique title and address pair. This will prevent users from creating multiple listings for the same address with the same information.
+
 ## App Interface
 
 ### Home Page
@@ -11,7 +25,7 @@ Both the backend and frontend directories have separate README files with the re
 <img width="787" alt="Screenshot 2025-05-04 at 3 00 32 PM" src="https://github.com/user-attachments/assets/e887cc38-f06a-48a7-bcfe-90cb390c410f" />
 
 ### Listings Page
-<img width="1512" alt="Screenshot 2025-05-04 at 3 00 47 PM" src="https://github.com/user-attachments/assets/6d109bdb-6f88-4ed3-9c1f-13dce4166b41" />
+<img width="1441" alt="Screenshot 2025-05-04 at 3 46 46 PM" src="https://github.com/user-attachments/assets/3cad61cd-6d04-4bfd-adee-7799a568359b" />
 
 ## Improvements
 
